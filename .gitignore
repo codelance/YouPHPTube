@@ -7,7 +7,7 @@
 /plugin/AudioTrackSwitcher/
 /plugin/Customize/
 /plugin/VideoThumbnails/
-/plugin/MP4ThumbsAndGif/
+# /plugin/MP4ThumbsAndGif/
 /plugin/MP4ThumbsAndGifLocal/
 /plugin/PayPalToWatch/
 /plugin/predefinedCategory/
@@ -19,7 +19,7 @@
 /plugin/SupportAuthor/
 /plugin/CountryRedirect/
 /plugin/SubtitleSwitcher/
-/plugin/AWS_S3/
+# /plugin/AWS_S3/
 /plugin/SignUpAgreement/
 /plugin/PromoteVideos/
 /plugin/Livesearch/

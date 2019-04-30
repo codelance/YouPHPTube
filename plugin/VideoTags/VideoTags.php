@@ -31,6 +31,9 @@ class VideoTags extends PluginAbstract {
     }
 
     static function saveTags($tagsNameList, $videos_id) {
+        if(empty($tagsNameList)) {
+            return array();
+        }
         // remove all tags from the video
         $tagsSaved = array();
         $deleted = self::removeAllTagFromVideo($videos_id);
