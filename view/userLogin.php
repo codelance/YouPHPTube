@@ -49,13 +49,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label"></label>
                         <div class="col-md-8 inputGroupContainer">
-                            <?php
-                            if (empty($advancedCustomUser->disableNativeSignUp)) {
-                                ?>
                                 <small><a href="#" class="btn" id="forgotPassword"><?php echo __("I forgot my password"); ?></a></small>
-                                <?php
-                            }
-                            ?>
                         </div>
                     </div>
                     <!-- Button -->
