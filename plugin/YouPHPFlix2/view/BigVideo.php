@@ -90,8 +90,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     <?php
                                 }
                             }
-                            if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayPluginsTags)) {
 
+                            if ($advancedCustom->paidOnlyFreeLabel && !empty($value2->label) && $value2->label === __("Paid Content")) {
+                                ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
+                            }
+                            if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayPluginsTags)) {
                                 if ($value2->label === "Plugin") {
                                     ?>
                                     <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
@@ -110,10 +113,16 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     </h4>
                     <div class="row">                
                         <?php
-                        if (!empty($images->posterPortrait)) {
+                        if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
                             ?>
                             <div class="col-md-2 col-sm-4 col-xs-6">
                                 <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 135px;" />
+                            </div>
+                            <?php
+                        }else{
+                            ?>
+                            <div class="col-md-2 col-sm-4 col-xs-6">
+                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->poster; ?>" style="min-width: 135px; height: auto;" />
                             </div>
                             <?php
                         }
