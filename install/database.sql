@@ -40,13 +40,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `city` VARCHAR(100) NULL DEFAULT NULL,
   `private` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `user_UNIQUE` (`user` ASC),
-  INDEX `fk_users_featured_videos_idx` (`channelFeaturedVideoId` ASC),
-  CONSTRAINT `fk_users_featured_videos`
-    FOREIGN KEY (`channelFeaturedVideoId`)
-    REFERENCES `videos` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
 
 
