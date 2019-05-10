@@ -114,6 +114,28 @@
     </div>
 </div>
 
+<div class="form-group">
+    <div class="col-md-4">
+        <img id="inputNextVideo-poster" src="view/img/notfound.jpg" class="ui-state-default" alt="">
+    </div>
+    <div class="col-md-8 inputGroupContainer">
+        <label class="control-label"><?php echo __("Featured Video"); ?></label>
+        <input id="inputFeaturedVideo" placeholder="<?php echo __("Featured Video"); ?>" class="form-control first">
+        <input id="inputFeaturedVideoClean" placeholder="<?php echo __("Featured Video URL"); ?>" class="form-control last" readonly="readonly">
+        <input type="hidden" id="inputFeaturedVideo-id">
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-md-4 control-label"><?php echo __("Privacy"); ?></label>
+    <div class="col-md-8 inputGroupContainer">
+        <select class="form-control" id="inputPrivate">
+            <option value="0"><?php echo __("Public"); ?></option>
+            <option value="1"><?php echo __("Private"); ?></option>
+        </select>
+    </div>
+</div>
+
 <?php
 YouPHPTubePlugin::getMyAccount(User::getId());
 ?>
@@ -144,6 +166,7 @@ YouPHPTubePlugin::getMyAccount(User::getId());
         str = $('#analyticsCode').val();
         return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
     }
+
     function readFile(input, crop) {
         console.log(input);
         console.log($(input)[0]);
@@ -177,7 +200,9 @@ YouPHPTubePlugin::getMyAccount(User::getId());
                 "name": $('#inputName').val(),
                 "about": $('#textAbout').val(),
                 "channelName": $('#channelName').val(),
-                "analyticsCode": $('#analyticsCode').val()
+                "analyticsCode": $('#analyticsCode').val(),
+                "featuredVideoId": $('#inputFeaturedVideo-id').val(),
+                "private": $('#inputPrivate').val()
             },
             type: 'post',
             success: function (response) {
@@ -227,6 +252,39 @@ YouPHPTubePlugin::getMyAccount(User::getId());
         });
     }
     $(document).ready(function () {
+        $('#inputPrivate').val(<?php echo $user->isPrivate() ? "1" : "0"; ?>);
+
+        // handle featured video entry
+        // TODO set what was stored
+        $("#inputFeaturedVideo").autocomplete({
+            minLength: 0,
+            source: function (req, res) {
+                $.ajax({
+                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videos.json.php',
+                    type: "POST",
+                    data: {
+                        searchPhrase: req.term
+                    },
+                    success: function (data) {
+                        res(data.rows);
+                    }
+                });
+            },
+            focus: function (event, ui) {
+                $("#inputFeaturedVideo").val(ui.item.title);
+                return false;
+            },
+            select: function (event, ui) {
+                $("#inputFeaturedVideo").val(ui.item.title);
+                $("#inputFeaturedVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + ui.item.clean_title);
+                $("#inputFeaturedVideo-id").val(ui.item.id);
+                $("#inputFeaturedVideo-poster").attr("src", "videos/" + ui.item.filename + ".jpg");
+                return false;
+            }
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $("<li>").append("<div>" + item.title + "<br><?php echo __("Uploaded By"); ?>: " + item.user + "</div>").appendTo(ul);
+        };
+
         $('#upload').on('change', function () {
             readFile(this, uploadCrop);
         });

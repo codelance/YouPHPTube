@@ -23,6 +23,8 @@ class User {
     private $recoverPass;
     private $about;
     private $channelName;
+    private $channelId;
+    private $channelFeaturedVideoId;
     private $emailVerified;
     private $analyticsCode;
     private $externalOptions;
@@ -34,6 +36,7 @@ class User {
     private $country;
     private $region;
     private $city;
+    private $private;
     static $DOCUMENT_IMAGE_TYPE = "Document Image";
 
     function __construct($id, $user = "", $password = "") {
@@ -128,6 +131,22 @@ if (typeof gtag !== \"function\") {
             $code = "<!-- No Analytics for this user {$id} -->";
         }
         return $code;
+    }
+
+    function isPrivate() {
+        return $this->private;
+    }
+
+    function setPrivate($isPrivate) {
+        $this->private = empty($isPrivate) ? 0 : 1;
+    }
+
+    function getChannelFeaturedVideoId() {
+        return $this->channelFeaturedVideoId;
+    }
+
+    function setChannelFeaturedVideoId($channelFeaturedVideoId) {
+        $this->channelFeaturedVideoId = $channelFeaturedVideoId;
     }
 
     function addExternalOptions($id, $value) {
@@ -372,6 +391,7 @@ if (typeof gtag !== \"function\") {
         if (empty($this->isAdmin)) {
             $this->isAdmin = "false";
         }
+
         if (empty($this->canStream)) {
             if (empty($this->id)) { // it is a new user
                 if (empty($advancedCustomUser->newUsersCanStream)) {
@@ -411,24 +431,35 @@ if (typeof gtag !== \"function\") {
         if (empty($this->channelName)) {
             $this->channelName = uniqid();
         }
+
+        if(empty($this->channelId)) {
+            $this->channelId = uniqid("channel_".$this->id."-");
+        }
+
+        $this->channelFeaturedVideoId = intval($this->channelFeaturedVideoId);
+        if (empty($this->channelFeaturedVideoId)) {
+            $this->channelFeaturedVideoId = 'NULL';
+        }
+
         if (!empty($this->id)) {
-            $formats = "ssssiii";
-            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload);
+            $formats = "ssssiiii";
+            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload, $this->private);
             $sql = "UPDATE users SET user = ?, password = ?, "
                     . "email = ?, name = ?, isAdmin = ?,"
-                    . "canStream = ?,canUpload = ?,";
+                    . "canStream = ?,canUpload = ?,private = ?,";
             if (isset($this->canViewChart)) {
                 $formats .= "i";
                 $values[] = $this->canViewChart;
                 $sql .= "canViewChart = ?, ";
             }
-            $formats .= "ssssssisssssssssi";
+            $formats .= "sssssssisssssssssii";
             $values[] = $this->status;
             $values[] = $this->photoURL;
             $values[] = $this->backgroundURL;
             $values[] = $this->recoverPass;
             $values[] = $this->about;
             $values[] = $this->channelName;
+            $values[] = $this->channelId;
             $values[] = $this->emailVerified;
             $values[] = $this->analyticsCode;
             $values[] = $this->externalOptions;
@@ -439,19 +470,20 @@ if (typeof gtag !== \"function\") {
             $values[] = $this->country;
             $values[] = $this->region;
             $values[] = $this->city;
+            $values[] = $this->channelFeaturedVideoId;
             $values[] = $this->id;
 
             $sql .= "status = ?, "
                     . "photoURL = ?, backgroundURL = ?, "
                     . "recoverPass = ?, about = ?, "
-                    . " channelName = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , "
+                    . " channelName = ?, channelId = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , "
                     . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , "
-                    . " modified = now() WHERE id = ?";
+                    . " channelFeaturedVideoId = ? , modified = now() WHERE id = ?";
         } else {
-            $formats = "ssssiiissssss";
+            $formats = "ssssiiisssssss";
             $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload,
-                $this->status, $this->photoURL, $this->recoverPass, $this->channelName, $this->analyticsCode, $this->externalOptions);
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) "
+                $this->status, $this->photoURL, $this->recoverPass, $this->channelName, $this->channelId, $this->analyticsCode, $this->externalOptions);
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, channelId, analyticsCode, externalOptions) "
                     . " VALUES (?,?,?,?,?,?,?, false, "
                     . "?,?,?, now(), now(),?,?,?)";
         }

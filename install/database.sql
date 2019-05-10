@@ -26,6 +26,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `canViewChart` TINYINT(1) NOT NULL DEFAULT 0,
   `about` TEXT NULL,
   `channelName` VARCHAR(45) NULL,
+  `channelId` VARCHAR(45) NULL,
+  `channelFeaturedVideoId` INT NULL,
   `emailVerified` TINYINT(1) NOT NULL DEFAULT 0,
   `analyticsCode` VARCHAR(45) NULL DEFAULT NULL,
   `externalOptions` TEXT NULL,
@@ -36,8 +38,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `country` VARCHAR(100) NULL DEFAULT NULL,
   `region` VARCHAR(100) NULL DEFAULT NULL,
   `city` VARCHAR(100) NULL DEFAULT NULL,
+  `private` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `user_UNIQUE` (`user` ASC))
+  UNIQUE INDEX `user_UNIQUE` (`user` ASC),
+  INDEX `fk_users_featured_videos_idx` (`channelFeaturedVideoId` ASC),
+  CONSTRAINT `fk_users_featured_videos`
+    FOREIGN KEY (`channelFeaturedVideoId`)
+    REFERENCES `videos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -71,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `modified` DATETIME NOT NULL,
   `iconClass` VARCHAR(45) NOT NULL DEFAULT 'fa fa-folder',
   `users_id` INT(11) NOT NULL DEFAULT 1,
-  `private` TINYINT(1) NULL DEFAULT 0,
+  `private` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_categories_users1_idx` (`users_id` ASC),
   UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC), 
