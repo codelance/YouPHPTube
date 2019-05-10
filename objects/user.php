@@ -437,7 +437,7 @@ if (typeof gtag !== \"function\") {
         }
 
         $this->channelFeaturedVideoId = intval($this->channelFeaturedVideoId);
-        if (empty($this->channelFeaturedVideoId)) {
+        if (empty($this->channelFeaturedVideoId) or $this->channelFeaturedVideoId == 0) {
             $this->channelFeaturedVideoId = 'NULL';
         }
 

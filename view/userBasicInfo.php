@@ -115,11 +115,8 @@
 </div>
 
 <div class="form-group">
-    <div class="col-md-4">
-        <img id="inputNextVideo-poster" src="view/img/notfound.jpg" class="ui-state-default" alt="">
-    </div>
+    <label class="col-md-4 control-label"><?php echo __("Featured Video"); ?></label>
     <div class="col-md-8 inputGroupContainer">
-        <label class="control-label"><?php echo __("Featured Video"); ?></label>
         <input id="inputFeaturedVideo" placeholder="<?php echo __("Featured Video"); ?>" class="form-control first">
         <input id="inputFeaturedVideoClean" placeholder="<?php echo __("Featured Video URL"); ?>" class="form-control last" readonly="readonly">
         <input type="hidden" id="inputFeaturedVideo-id">
@@ -278,7 +275,6 @@ YouPHPTubePlugin::getMyAccount(User::getId());
                 $("#inputFeaturedVideo").val(ui.item.title);
                 $("#inputFeaturedVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + ui.item.clean_title);
                 $("#inputFeaturedVideo-id").val(ui.item.id);
-                $("#inputFeaturedVideo-poster").attr("src", "videos/" + ui.item.filename + ".jpg");
                 return false;
             }
         }).autocomplete("instance")._renderItem = function (ul, item) {
