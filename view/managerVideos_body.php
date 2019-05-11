@@ -1740,8 +1740,9 @@ if (YouPHPTubePlugin::isEnabledByName('PlayLists')) {
 ?>
 
                                                         <?php if (YouPHPTubePlugin::isEnabledByName("VideoTags")) { ?>
+                                                        console.log("Video " + row.id +"Tags: " + row.videoTags);
                                                         for (var tag in row.videoTags) {
-                                                            playList += "<span class=\"label label-default fix-width\">" + tag + "</span>&nbsp;"
+                                                            playList += "<span class=\"label label-default fix-width\">" + tag.name + "</span>&nbsp;"
                                                         }
                                                         <?php } ?>
 
