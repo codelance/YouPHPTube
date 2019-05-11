@@ -473,7 +473,7 @@
                                                     return false;
                                                 }
                                             }).autocomplete("instance")._renderItem = function (ul, item) {
-                                                return $("<li>").append("<div>" + item.title + "<br><?php echo __("Uploaded By"); ?>: " + item.user + "</div>").appendTo(ul);
+                                                return $("<li>").append("<div>" + item.title + " (" + item.mastered ? "Mastered" : "") + ")" + "<br><?php echo __("Uploaded By"); ?>: " + item.user + "</div>").appendTo(ul);
                                             };
 
                                             $("#inputUserOwner").autocomplete({
@@ -1448,6 +1448,7 @@ if (!empty($row)) {
                                                 $('.videoGroups').prop('checked', false);
                                                 $('#can_download').prop('checked', false);
                                                 $('#only_for_paid').prop('checked', false);
+                                                $('#mastered').prop('checked', false);
                                                 $('#can_share').prop('checked', false);
                                                 $('#public').prop('checked', true);
                                                 $('#public').trigger("change");
