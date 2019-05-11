@@ -85,13 +85,21 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
         $tmp_name = $_FILES['upl']['tmp_name'];
         $filenameMP4 = $filename . "." . $extension;
-        decideMoveUploadedToVideos($tmp_name, $filenameMP4);
+
+        $destinationVideoPath = "{$global['systemRootPath']}videos/{$filenameMP4}";
+        if (!move_uploaded_file($tmp_name, $destinationVideoPath)) {
+            $obj->msg = print_r(sprintf(__("Could not move video file [%s]"), $destinationVideoPath), true);
+            die(json_encode($obj));
+        }
+        decideMoveUploadedToVideos($destinationVideoPath, $filenameMP4);
+        
         if ((YouPHPTubePlugin::isEnabled("996c9afb-b90e-40ca-90cb-934856180bb9")) && ($extension == "mp4" || $extension == "webm")) {
             require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGif/MP4ThumbsAndGif.php';
 
             $videoFileName = $video->getFilename();
             if(MP4ThumbsAndGif::getImage($videoFileName, 'jpg')){
                 $sourceImagePath = "{$global['systemRootPath']}videos/{$videoFileName}.jpg";
+
                 decideMoveUploadedToVideos($sourceImagePath, $filename . ".jpg");
             }
 

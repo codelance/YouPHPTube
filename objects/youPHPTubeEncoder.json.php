@@ -94,6 +94,11 @@ if (!empty($_FILES['video']['tmp_name'])) {
     }
     $filename = "{$videoFileName}{$resolution}.{$_POST['format']}";
     error_log("youPHPTubeEncoder.json: receiving video upload to {$filename} ". json_encode($_FILES));
+    if (!move_uploaded_file($_FILES['video']['tmp_name'], $filename)) {
+        $obj->msg = print_r(sprintf(__("Could not move video file [%s]"), $filename), true);
+        error_log("youPHPTubeEncoder.json: ".$obj->msg);
+        die(json_encode($obj));
+    }
     decideMoveUploadedToVideos($_FILES['video']['tmp_name'], $filename);
 } else {
     // set encoding

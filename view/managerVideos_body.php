@@ -1110,6 +1110,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('#can_download').prop('checked', false);
                                             $('#can_share').prop('checked', false);
                                             $('#only_for_paid').prop('checked', false);
+                                            $('#mastered').prop('checked', false);
                                             $('#public').prop('checked', true);
                                             $('#public').trigger("change");
                                             $('#videoIsAd').prop('checked', false);
