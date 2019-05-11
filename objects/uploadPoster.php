@@ -57,6 +57,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename . $ext;
             die(json_encode($obj));
         } else {
+            decideMoveUploadedToVideos($destination, $video->getFilename() . $ext);
             // delete thumbs from poster
             Video::deleteThumbs($video->getFilename());
         }

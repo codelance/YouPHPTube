@@ -2038,6 +2038,7 @@ if (!class_exists('Video')) {
                     $token = "?" . $secure->getToken($filename);
                 }
                 $source = array();
+                $source['name'] = "{$filename}{$type}";
                 $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
                 if ($type == ".m3u8") {
                     $source['path'] = "{$global['systemRootPath']}videos/{$filename}/index{$type}";
@@ -2058,7 +2059,7 @@ if (!class_exists('Video')) {
                     }
                 }
                 /* need it because getDurationFromFile */
-                if ($includeS3 && ($type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".mp3" || $type == ".ogg")) {
+                if ($includeS3 && ($type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".mp3" || $type == ".ogg" || $type == ".jpg" || $type == ".gif")) {
                     if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
                         if (!empty($aws_s3)) {
                             $source = $aws_s3->getAddress("{$filename}{$type}");
@@ -2129,14 +2130,14 @@ if (!class_exists('Video')) {
              *
              */
             $obj = new stdClass();
-            $gifSource = self::getSourceFile($filename, ".gif");
-            $gifPortraitSource = self::getSourceFile($filename, "_portrait.gif");
-            $jpegSource = self::getSourceFile($filename, ".jpg");
-            $jpegPortraitSource = self::getSourceFile($filename, "_portrait.jpg");
-            $jpegPortraitThumbs = self::getSourceFile($filename, "_portrait_thumbsV2.jpg");
-            $jpegPortraitThumbsSmall = self::getSourceFile($filename, "_portrait_thumbsSmallV2.jpg");
-            $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg");
-            $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
+            $gifSource = self::getSourceFile($filename, ".gif", true);
+            $gifPortraitSource = self::getSourceFile($filename, "_portrait.gif", true);
+            $jpegSource = self::getSourceFile($filename, ".jpg", true);
+            $jpegPortraitSource = self::getSourceFile($filename, "_portrait.jpg", true);
+            $jpegPortraitThumbs = self::getSourceFile($filename, "_portrait_thumbsV2.jpg", true);
+            $jpegPortraitThumbsSmall = self::getSourceFile($filename, "_portrait_thumbsSmallV2.jpg", true);
+            $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg", true);
+            $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg", true);
             $obj->poster = $jpegSource['url'];
             $obj->posterPortrait = $jpegPortraitSource['url'];
             $obj->posterPortraitThumbs = $jpegPortraitThumbs['url'];
@@ -2158,6 +2159,9 @@ if (!class_exists('Video')) {
                     } else {
                         im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], 170, 250);
                     }
+
+                    //
+                    decideMoveUploadedToVideos($jpegPortraitThumbs['path'], $jpegPortraitThumbs['name']);
                 }
 // create thumbs
                 if (!file_exists($jpegPortraitThumbsSmall['path']) && filesize($jpegPortraitSource['path']) > 1024) {
@@ -2167,6 +2171,8 @@ if (!class_exists('Video')) {
                     } else {
                         im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], 170, 250, 5);
                     }
+
+                    decideMoveUploadedToVideos($jpegPortraitThumbsSmall['path'], $jpegPortraitThumbsSmall['name']);
                 }
             } else {
                 $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
@@ -2185,6 +2191,8 @@ if (!class_exists('Video')) {
                     } else {
                         im_resizeV2($jpegSource['path'], $thumbsSource['path'], 250, 140);
                     }
+
+                    decideMoveUploadedToVideos($thumbsSource['path'], $thumbsSource['name']);
                 }
 // create thumbs
                 if (!file_exists($thumbsSmallSource['path']) && filesize($jpegSource['path']) > 1024) {
@@ -2194,6 +2202,8 @@ if (!class_exists('Video')) {
                     } else {
                         im_resizeV2($jpegSource['path'], $thumbsSmallSource['path'], 250, 140, 5);
                     }
+
+                    decideMoveUploadedToVideos($thumbsSmallSource['path'], $thumbsSmallSource['name']);
                 }
             } else {
                 if (($type !== "audio") && ($type !== "linkAudio")) {

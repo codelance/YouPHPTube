@@ -90,8 +90,15 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
             require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGif/MP4ThumbsAndGif.php';
 
             $videoFileName = $video->getFilename();
-            MP4ThumbsAndGif::getImage($videoFileName, 'jpg');
-            MP4ThumbsAndGif::getImage($videoFileName, 'gif');
+            if(MP4ThumbsAndGif::getImage($videoFileName, 'jpg')){
+                $sourceImagePath = "{$global['systemRootPath']}videos/{$videoFileName}.jpg";
+                decideMoveUploadedToVideos($sourceImagePath, $filename . ".jpg");
+            }
+
+            if(MP4ThumbsAndGif::getImage($videoFileName, 'gif')) {
+                $sourceImagePath = "{$global['systemRootPath']}videos/{$videoFileName}.gif";
+                decideMoveUploadedToVideos($sourceImagePath, $filename . ".gif");
+            }
         } 
 
         //    } else if(($extension=="mp3")||($extension=="ogg")){

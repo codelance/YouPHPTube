@@ -99,19 +99,25 @@ if (!empty($_FILES['video']['tmp_name'])) {
     // set encoding
     $video->setStatus('e');
 }
+
 if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination_local}.jpg")) {
     if (!move_uploaded_file($_FILES['image']['tmp_name'], "{$destination_local}.jpg")) {
         $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination_local), true);
         error_log("youPHPTubeEncoder.json: ".$obj->msg);
         die(json_encode($obj));
     }
+
+    decideMoveUploadedToVideos("{$destination_local}.jpg", $videoFileName."jpg");
 }
+
 if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination_local}.gif")) {
     if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], "{$destination_local}.gif")) {
         $obj->msg = print_r(sprintf(__("Could not move gif image file [%s.gif]"), $destination_local), true);
         error_log("youPHPTubeEncoder.json: ".$obj->msg);
         die(json_encode($obj));
     }
+
+    decideMoveUploadedToVideos("{$destination_local}.gif", $videoFileName."gif");
 }
 
 if (!empty($_POST['categories_id'])) {
