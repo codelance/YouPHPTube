@@ -1738,6 +1738,13 @@ if (YouPHPTubePlugin::isEnabledByName('PlayLists')) {
     <?php
 }
 ?>
+
+                                                        <?php if (YouPHPTubePlugin::isEnabledByName("VideoTags")) { ?>
+                                                        for (var tag in row.videoTags) {
+                                                            playList += "<span class=\"label label-default fix-width\">" + tag + "</span>&nbsp;"
+                                                        }
+                                                        <?php } ?>
+
                                                         return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a>" + tags + "" + yt + playList;
                                                     }
 
