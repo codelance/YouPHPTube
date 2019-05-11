@@ -389,6 +389,7 @@
                                                         <label for="public" class="label-success"></label>
                                                     </div>
                                                 </li>
+
                                                 <li class="list-group-item active non-public">
                                                     <?php echo __("Groups that can see this video"); ?>
                                                     <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
@@ -408,6 +409,13 @@
                                                     <?php
                                                 }
                                                 ?>
+                                                <li class="list-group-item">
+                                                    <span class="fa fa-film"></span> <?php echo __("Mastered"); ?>
+                                                    <div class="material-switch pull-right">
+                                                        <input id="mastered" type="checkbox" value="0"/>
+                                                        <label for="mastered" class="label-success"></label>
+                                                    </div>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -883,6 +891,12 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 }
                                             }
 
+                                            if (row.mastered) {
+                                                $('#mastered').prop('checked', true);
+                                            } else {
+                                                $('#mastered').prop('checked', false);
+                                            }
+
                                             if (row.can_download) {
                                                 $('#can_download').prop('checked', true);
                                             } else {
@@ -1041,7 +1055,8 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                             "users_id": $('#inputUserOwner_id').val(),
                                                             "can_download": $('#can_download').is(':checked'),
                                                             "can_share": $('#can_share').is(':checked'),
-                                                            "only_for_paid": $('#only_for_paid').is(':checked')
+                                                            "only_for_paid": $('#only_for_paid').is(':checked'),
+                                                            "mastered": $('#mastered').is(':checked')
                                                     },
                                                     type: 'post',
                                                     success: function (response) {
@@ -1658,7 +1673,7 @@ if (User::isAdmin()) {
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span><br>";
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Format") . ":"; ?> </span>"+row.typeLabels;
-                                                        tags += "<span class='label label-primary fix-width'><?php echo __("Mastered") . ":"; ?> </span><span class=\"label label-default fix-width\">" + (row.mastered ? "Yes" : "No") + "</span><br>";
+                                                        tags += "<br><span class='label label-primary fix-width'><?php echo __("Mastered") . ":"; ?> </span><span class=\"label label-default fix-width\">" + (row.mastered ? "Yes" : "No") + "</span>";
                                                         return tags;
                                                     },
                                                     "checkbox": function (column, row) {

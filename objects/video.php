@@ -41,6 +41,7 @@ if (!class_exists('Video')) {
         private $can_download;
         private $can_share;
         private $only_for_paid;
+        private $mastered;
         private $rrating;
         private $externalOptions;
         static $statusDesc = array(
@@ -210,6 +211,7 @@ if (!class_exists('Video')) {
             $this->can_download = intval($this->can_download);
             $this->can_share = intval($this->can_share);
             $this->only_for_paid = intval($this->only_for_paid);
+            $this->mastered = intval($this->mastered);
 
             $this->rate = floatval($this->rate);
             if (!empty($this->id)) {
@@ -220,12 +222,12 @@ if (!class_exists('Video')) {
                 $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                         . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
                         . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, isSuggested = {$this->isSuggested}, users_id = {$this->users_id}, "
-                        . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}' , modified = now()"
+                        . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', mastered = '{$this->mastered}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}' , modified = now()"
                         . " WHERE id = {$this->id}";
             } else {
                 $sql = "INSERT INTO videos "
-                        . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions) values "
-                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions')";
+                        . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, mastered, rrating, externalOptions) values "
+                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', mastered = '{$this->mastered}', '{$this->rrating}', '$this->externalOptions')";
             }
             $insert_row = sqlDAL::writeSql($sql);
             if ($insert_row) {
@@ -2004,6 +2006,14 @@ if (!class_exists('Video')) {
 
         function setOnly_for_paid($only_for_paid) {
             $this->only_for_paid = (empty($only_for_paid) || $only_for_paid === "false") ? 0 : 1;
+        }
+
+        function getMastered() {
+            return $this->mastered;
+        }
+
+        function setMastered($mastered) {
+            $this->mastered = (empty($mastered) || $mastered === "false") ? 0 : 1;
         }
 
         /**
