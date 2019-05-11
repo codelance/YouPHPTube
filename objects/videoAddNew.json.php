@@ -83,7 +83,7 @@ $obj->setOnly_for_paid(@$_POST['only_for_paid']);
 $obj->setTrailer1(@$_POST['trailer1']);
 $obj->setRrating(@$_POST['rrating']);
 $obj->setExternalOptions(@$_POST['externalOptions']);
-
+$obj->setMastered(@$_POST['mastered']);
 $resp = $obj->save(true);
 
 // add tags
