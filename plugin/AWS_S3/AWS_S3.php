@@ -139,8 +139,8 @@ class AWS_S3 extends PluginAbstract {
         ini_set('max_execution_time', 3000); // 60 minutes
         global $global;
         $this->copy_to_s3($tmp_name, $filename);
-        @unlink($tmp_name);
-        file_put_contents("{$global['systemRootPath']}videos/{$filename}", "Dummy File");
+        //@unlink($tmp_name);
+        //file_put_contents("{$global['systemRootPath']}videos/{$filename}", "Dummy File");
     }
 
     public function copy_to_s3($tmp_name, $filename) {

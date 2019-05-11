@@ -2070,7 +2070,7 @@ if (!class_exists('Video')) {
                 }
                 /* need it because getDurationFromFile */
                 if ($includeS3 && ($type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".mp3" || $type == ".ogg" || $type == ".jpg" || $type == ".gif")) {
-                    if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
+                    //if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
                         if (!empty($aws_s3)) {
                             $source = $aws_s3->getAddress("{$filename}{$type}");
                         } else if (!empty($bb_b2)) {
@@ -2078,7 +2078,7 @@ if (!class_exists('Video')) {
                         } else if (!empty($ftp)) {
                             $source = $ftp->getAddress("{$filename}{$type}");
                         }
-                    }
+                    //}
                 }
                 if (!file_exists($source['path']) || ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10 ))) {
                     if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg" && $type != "_portrait_thumbsV2.jpg" && $type != "_portrait_thumbsSmallV2.jpg") {
