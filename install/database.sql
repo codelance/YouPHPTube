@@ -124,6 +124,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `rrating` VARCHAR(45) NULL DEFAULT NULL,
   `externalOptions` TEXT NULL DEFAULT NULL,
   `only_for_paid` TINYINT(1) NULL DEFAULT NULL,
+  `mastered` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),

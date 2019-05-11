@@ -1658,6 +1658,7 @@ if (User::isAdmin()) {
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span><br>";
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Format") . ":"; ?> </span>"+row.typeLabels;
+                                                        tags += "<span class='label label-primary fix-width'><?php echo __("Mastered") . ":"; ?> </span><span class=\"label label-default fix-width\">" + (row.mastered ? "Yes" : "No") + "</span><br>";
                                                         return tags;
                                                     },
                                                     "checkbox": function (column, row) {
@@ -1699,9 +1700,11 @@ if (User::isAdmin()) {
                                                         } else {
                                                             type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
                                                             if (typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.url) {
-                                                                img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.pjpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
+                                                                //img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.pjpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
+                                                                img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.pjpg.url + "'  style='max-height:80px; margin-right: 5px;'> ";
                                                             } else if (typeof row.videosURL.jpg !== 'undefined' && row.videosURL.jpg.url) {
-                                                                img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.jpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
+                                                                //img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.jpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
+                                                                img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.jpg.url + "'  style='max-height:80px; margin-right: 5px;'> ";
                                                             } else {
                                                                 is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
                                                                 img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
