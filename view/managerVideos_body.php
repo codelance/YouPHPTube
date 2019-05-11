@@ -473,7 +473,7 @@
                                                     return false;
                                                 }
                                             }).autocomplete("instance")._renderItem = function (ul, item) {
-                                                return $("<li>").append("<div>" + item.title + " (" + item.mastered ? "Mastered" : "") + ")" + "<br><?php echo __("Uploaded By"); ?>: " + item.user + "</div>").appendTo(ul);
+                                                return $("<li>").append("<div>" + item.title + " (" + (item.mastered ? "Mastered" : "") + ")" + "<br><?php echo __("Uploaded By"); ?>: " + item.user + "</div>").appendTo(ul);
                                             };
 
                                             $("#inputUserOwner").autocomplete({
