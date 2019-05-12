@@ -546,7 +546,7 @@ if (!class_exists('Video')) {
             return " AND " . $sql;
         }
 
-        static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false, $showUnlisted = false) {
+        static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false, $showUnlisted = true) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return false;

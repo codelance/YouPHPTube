@@ -1741,7 +1741,7 @@ if (YouPHPTubePlugin::isEnabledByName('PlayLists')) {
 
                                                         <?php if (YouPHPTubePlugin::isEnabledByName("VideoTags")) { ?>
                                                         for (i = 0; i < row.videoTags.length; i++) {
-                                                            playList += "<span class=\"label label-default fix-width\">" + row.videoTags[i].name + "</span>&nbsp;"
+                                                            playList += "<span class=\"label label-default\">" + row.videoTags[i].name + "</span>&nbsp;"
                                                         }
                                                         <?php } ?>
 
