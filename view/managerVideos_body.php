@@ -1651,7 +1651,11 @@ if (User::isAdmin()) {
 
                                                         var nextIsSet;
                                                         if (row.next_video == null || row.next_video.length == 0) {
-                                                            nextIsSet = "<span class='label label-danger'> <?php echo __("Next video NOT set"); ?> </span>";
+                                                            if(row.next_video_id) {
+                                                                nextIsSet = "<span class='label label-label-success'> <?php echo __("Next video set"); ?> </span>";
+                                                            } else {
+                                                                nextIsSet = "<span class='label label-danger'> <?php echo __("Next video NOT set"); ?> </span>";
+                                                            }
                                                         } else {
                                                             var nextVideoTitle;
                                                             if (row.next_video.title.length > 20) {
