@@ -869,10 +869,10 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_video.clean_title);
                                                 $('#inputNextVideo-id').val(row.next_video.id);
                                             } else {
-
-                                                $('#removeAutoplay').click();
+                                                setTimeout(function(){
+                                                    $('#removeAutoplay').click();
+                                                }, 2000);
                                             }
-
 
                                             var photoURL = '<?php echo $global['webSiteRootURL']; ?>img/userSilhouette.jpg'
                                             if (row.photoURL) {
