@@ -869,7 +869,8 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_video.clean_title);
                                                 $('#inputNextVideo-id').val(row.next_video.id);
                                             } else {
-                                                $('#removeAutoplay').trigger('click');
+
+                                                $('#removeAutoplay').click();
                                             }
 
 
@@ -1094,7 +1095,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('#inputDescription').val("");
                                             $('#inputCategory').val("");
                                             $('#inputRrating').val("");
-                                            $('#removeAutoplay').trigger('click');
+                                            $('#removeAutoplay').click();
 
 <?php
 if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
@@ -1652,7 +1653,7 @@ if (User::isAdmin()) {
                                                         var nextIsSet;
                                                         if (row.next_video == null || row.next_video.length == 0) {
                                                             if(row.next_videos_id) {
-                                                                nextIsSet = "<span class='label label-label-success'> <?php echo __("Next video set"); ?> </span>";
+                                                                nextIsSet = "<span class='label label-success'> <?php echo __("Next video set"); ?> </span>";
                                                             } else {
                                                                 nextIsSet = "<span class='label label-danger'> <?php echo __("Next video NOT set"); ?> </span>";
                                                             }
