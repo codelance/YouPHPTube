@@ -1653,7 +1653,8 @@ if (User::isAdmin()) {
                                                         var nextIsSet;
                                                         if (row.next_video == null || row.next_video.length == 0) {
                                                             if(row.next_videos_id) {
-                                                                nextIsSet = "<span class='label label-success'> <?php echo __("Next video set"); ?> </span>";
+                                                                nextIsSet = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.next_videos_id + '" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("View Mastered")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit Mastered</button>';
+                                                                //nextIsSet = "<span class='label label-success'> <?php echo __("Next video set"); ?> </span>";
                                                             } else {
                                                                 nextIsSet = "<span class='label label-danger'> <?php echo __("Next video NOT set"); ?> </span>";
                                                             }
