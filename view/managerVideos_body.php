@@ -1792,7 +1792,8 @@ if (YouPHPTubePlugin::isEnabledByName('PlayLists')) {
                                                 /* Executes after data is loaded and rendered */
                                                 grid.find(".command-edit").on("click", function (e) {
                                                     waitToSubmit = true;
-                                                    var row_index = $(this).closest('tr').index();
+                                                    //var row_index = $(this).closest('tr').index();
+                                                    var row_index = $(this).attr('data-row-id');
                                                     var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                     editVideo(row);
                                                 }).end().find(".command-delete").on("click", function (e) {
