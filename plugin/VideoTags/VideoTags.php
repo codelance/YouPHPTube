@@ -72,6 +72,8 @@ class VideoTags extends PluginAbstract {
         $id = $tag->getId();
         if (empty($id) && self::canCreateTag()) {
             $tag->setName($name);
+            $tag->setOrder(99);
+            $tag->setPrivate(1);
             $tag->setTags_types_id($tags_types_id);
             $id = $tag->save();
             $tag = new Tags($id);
