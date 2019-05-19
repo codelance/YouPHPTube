@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   `tags_types_id` INT NOT NULL,
+  `order` INT(11) NOT NULL DEFAULT 0,
+  `private` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_tags_tags_types1_idx` (`tags_types_id` ASC),
   CONSTRAINT `fk_tags_tags_types1`

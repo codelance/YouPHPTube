@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/VideoTags/Objects/TagsHasVideos
 
 class Tags extends ObjectYPT {
 
-    protected $id, $name, $tags_types_id;
+    protected $id, $name, $tags_types_id, $order, $private;
 
     static function getSearchFieldsNames() {
         return array('name');
@@ -65,6 +65,38 @@ class Tags extends ObjectYPT {
     function setTags_types_id($tags_types_id) {
         $this->tags_types_id = $tags_types_id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param mixed $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrivate()
+    {
+        return $this->private;
+    }
+
+    /**
+     * @param mixed $private
+     */
+    public function setPrivate($private)
+    {
+        $this->private = $private;
+    }
     
     public function _addVideo($videos_id) {
         if(empty($this->id) || empty($videos_id)){
@@ -94,6 +126,8 @@ class Tags extends ObjectYPT {
             $obj->type_name = $value['type_name'];
             $obj->tag_types_id = $value['tags_types_id'];
             $obj->name = $value['name'];
+            $obj->order = $value['order'];
+            $obj->private = $value['private'];
             $tagsArray[] = $obj;
         }
         return $tagsArray;
