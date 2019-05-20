@@ -1794,10 +1794,12 @@ if (YouPHPTubePlugin::isEnabledByName('PlayLists')) {
                                                     waitToSubmit = true;
                                                     //var row_index = $(this).closest('tr').index();
                                                     //var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                                                    console.log(this);
+                                                    var data = $("#grid").bootgrid("getCurrentRows");
                                                     var row = this.getAttribute("data-row-id");
-                                                    console.log("Edit Row: " + row);
-                                                    editVideo(row);
+                                                    var videoObj = data.find(function(video) {
+                                                        return video.id === row;
+                                                    });
+                                                    editVideo(videoObj);
                                                 }).end().find(".command-delete").on("click", function (e) {
                                                     var row_index = $(this).closest('tr').index();
                                                     var row = $("#grid").bootgrid("getCurrentRows")[row_index];
