@@ -1793,8 +1793,8 @@ if (YouPHPTubePlugin::isEnabledByName('PlayLists')) {
                                                 grid.find(".command-edit").on("click", function (e) {
                                                     waitToSubmit = true;
                                                     //var row_index = $(this).closest('tr').index();
-                                                    var row_index = $(this).attr('data-row-id');
-                                                    var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                                                    //var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                                                    var row = $(this).attr('data-row-id');
                                                     editVideo(row);
                                                 }).end().find(".command-delete").on("click", function (e) {
                                                     var row_index = $(this).closest('tr').index();
