@@ -1796,9 +1796,11 @@ if (YouPHPTubePlugin::isEnabledByName('PlayLists')) {
                                                     //var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                     var data = $("#grid").bootgrid("getCurrentRows");
                                                     var row = this.getAttribute("data-row-id");
+                                                    console.log(data, row);
                                                     var videoObj = data.find(function(video) {
-                                                        return video.id === row;
+                                                        return video.id == row;
                                                     });
+                                                    console.log(videoObj);
                                                     editVideo(videoObj);
                                                 }).end().find(".command-delete").on("click", function (e) {
                                                     var row_index = $(this).closest('tr').index();
