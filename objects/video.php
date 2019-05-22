@@ -1221,6 +1221,7 @@ if (!class_exists('Video')) {
                 $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
                 $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
                 if (!empty($aws_s3)) {
+                    error_log("Should delete from aws: {$video['filename']}");
                     $aws_s3->removeFiles($video['filename']);
                 }
                 if (!empty($bb_b2)) {
@@ -1229,6 +1230,7 @@ if (!class_exists('Video')) {
                 if (!empty($ftp)) {
                     $ftp->removeFiles($video['filename']);
                 }
+                error_log("Should delete: {$video['filename']}");
                 $this->removeFiles($video['filename']);
             }
             return $resp;
@@ -1277,9 +1279,11 @@ if (!class_exists('Video')) {
             }
             global $global;
             $file = "{$global['systemRootPath']}videos/original_{$filename}";
+            error_log("Will delete: {$file}");
             $this->removeFilePath($file);
 
             $files = "{$global['systemRootPath']}videos/{$filename}";
+            error_log("Will delete: {$files}");
             $this->removeFilePath($files);
         }
 
