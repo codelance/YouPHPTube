@@ -1208,7 +1208,7 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 $this->removeNextVideos($this->id);
                 $this->removeTrailerReference($this->id);
-                $video = self::getVideo($this->id);
+                //$video = self::getVideo($this->id);
                 $sql = "DELETE FROM videos WHERE id = ?";
             } else {
                 return false;
@@ -1220,18 +1220,22 @@ if (!class_exists('Video')) {
                 $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
                 $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
                 $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
+
                 if (!empty($aws_s3)) {
-                    error_log("Should delete from aws: {$video['filename']}");
-                    $aws_s3->removeFiles($video['filename']);
+                    error_log("Should delete from aws: {$this->filename}");
+                    $aws_s3->removeFiles($this->filename);
                 }
+
                 if (!empty($bb_b2)) {
-                    $bb_b2->removeFiles($video['filename']);
+                    $bb_b2->removeFiles($this->filename);
                 }
+
                 if (!empty($ftp)) {
-                    $ftp->removeFiles($video['filename']);
+                    $ftp->removeFiles($this->filename);
                 }
-                error_log("Should delete: {$video['filename']}");
-                $this->removeFiles($video['filename']);
+                
+                error_log("Should delete: {$this->filename}");
+                $this->removeFiles($this->filename);
             }
             return $resp;
         }
