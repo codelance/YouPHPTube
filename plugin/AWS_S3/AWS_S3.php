@@ -98,7 +98,7 @@ class AWS_S3 extends PluginAbstract {
             if (!$obj->makeMyFilesPublicRead) {
                 $cmd = $s3Client->getCommand('GetObject', [
                     'Bucket' => $obj->bucket_name,
-                    'Key' => $filename
+                    'Key' => "videos/{$filename}"
                 ]);
 
                 $request = $s3Client->createPresignedRequest($cmd, "+{$obj->presignedRequestSecondsTimeout} seconds");
@@ -131,7 +131,7 @@ class AWS_S3 extends PluginAbstract {
         require_once $global['systemRootPath'] . 'plugin/AWS_S3/aws/aws-autoloader.php';
         $obj = $this->getDataObject();
         $s3Client = new S3Client($this->getS3ClientParameters());
-        $result = $s3Client->deleteMatchingObjects($obj->bucket_name, $fileName);
+        $result = $s3Client->deleteMatchingObjects($obj->bucket_name, "videos/{$fileName}");
     }
 
     public function move_uploaded_file($tmp_name, $filename) {
@@ -149,7 +149,7 @@ class AWS_S3 extends PluginAbstract {
         $s3Client = new S3Client($this->getS3ClientParameters());
         $parameters = array(
             'Bucket' => $obj->bucket_name,
-            'Key' => $filename,
+            'Key' => "videos/{$filename}",
             'SourceFile' => $tmp_name
         );
         if (!empty($obj->makeMyFilesPublicRead)) {
