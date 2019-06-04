@@ -78,22 +78,27 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
     
     if(!empty($_REQUEST['title'])){
+        error_log("Setting Video Title: ".  $_REQUEST['title']);
         $video->setTitle($_REQUEST['title']);
     }
 
     if(!empty($_REQUEST['description'])){
+        error_log("Setting Video Description: ".  $_REQUEST['description']);
         $video->setDescription($_REQUEST['description']);
     }
 
     if(!empty($_REQUEST['categories_id'])){
+        error_log("Setting Video Category: ".  $_REQUEST['categories_id']);
         $video->setCategories_id($_REQUEST['categories_id']);
     }
 
     if(!empty($_REQUEST['next_video_id'])){
+        error_log("Setting Video Next: ".  $_REQUEST['next_video_id']);
         $video->setNext_videos_id($_REQUEST['next_video_id']);
     }
 
     if(!empty($_REQUEST['mastered'])){
+        error_log("Setting Video Mastered: ".  $_REQUEST['mastered']);
         $video->setMasteredEnabled();
     }
     
