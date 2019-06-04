@@ -97,18 +97,56 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $video->setMasteredEnabled();
     }
     
-    $video->setStatus('e');
-
-    if (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
-        $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")";
-        error_log("MOBILE UPLOAD ERROR: ".  json_encode($object));
-        die(json_encode($object));
-    }
+    //$video->setStatus('e');
+    $video->setStatus('i');
+    //if (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
+    //    $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")";
+    //    error_log("MOBILE UPLOAD ERROR: ".  json_encode($object));
+    //    die(json_encode($object));
+    //}
     $object->videos_id = $video->save();
-    $video->queue();
+    if ($object->videos_id) {
+        /**
+         * This is when is using in a non uploaded movie
+         */
+        $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+        $tmp_name = $_FILES['upl']['tmp_name'];
+        $filenameMP4 = $filename . "." . $extension;
 
-    $object->error = false;
-    $object->msg = "We sent your video to the encoder";
+        $destinationVideoPath = "{$global['systemRootPath']}videos/{$filenameMP4}";
+        if (!move_uploaded_file($tmp_name, $destinationVideoPath)) {
+            $object->msg = print_r(sprintf(__("Could not move video file [%s]"), $destinationVideoPath), true);
+            die(json_encode($object));
+        }
+        decideMoveUploadedToVideos($destinationVideoPath, $filenameMP4);
+
+        if ((YouPHPTubePlugin::isEnabled("996c9afb-b90e-40ca-90cb-934856180bb9")) && ($extension == "mp4" || $extension == "webm")) {
+            require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGif/MP4ThumbsAndGif.php';
+
+            $videoFileName = $video->getFilename();
+            if(MP4ThumbsAndGif::getImage($videoFileName, 'jpg')){
+                $sourceImagePath = "{$global['systemRootPath']}videos/{$videoFileName}.jpg";
+
+                decideMoveUploadedToVideos($sourceImagePath, $filename . ".jpg");
+            }
+
+            if(MP4ThumbsAndGif::getImage($videoFileName, 'gif')) {
+                $sourceImagePath = "{$global['systemRootPath']}videos/{$videoFileName}.gif";
+                decideMoveUploadedToVideos($sourceImagePath, $filename . ".gif");
+            }
+        }
+
+        $object->error = false;
+
+        if(!empty($_FILES['upl']['tmp_name'])){
+            YouPHPTubePlugin::afterNewVideo($object->videos_id);
+        }
+    }
+
+    //$video->queue();
+
+    //$object->error = false;
+    //$object->msg = "We sent your video to the encoder";
     error_log("MOBILE SUCCESS UPLOAD: ".  json_encode($object));
     die(json_encode($object));
 } else {
