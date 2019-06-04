@@ -94,7 +94,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
 
     if(!empty($_REQUEST['mastered'])){
-        $video->setMastered(true);
+        $video->setMasteredEnabled();
     }
     
     $video->setStatus('e');

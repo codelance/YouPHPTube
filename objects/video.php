@@ -2024,6 +2024,10 @@ if (!class_exists('Video')) {
             $this->mastered = (empty($mastered) || $mastered === "false") ? 0 : 1;
         }
 
+        function setMasteredEnabled() {
+            $this->mastered = 1;
+        }
+
         /**
          *
          * @param type $filename
