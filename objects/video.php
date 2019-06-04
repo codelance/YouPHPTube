@@ -1233,7 +1233,7 @@ if (!class_exists('Video')) {
                 if (!empty($ftp)) {
                     $ftp->removeFiles($this->filename);
                 }
-                
+
                 error_log("Should delete: {$this->filename}");
                 $this->removeFiles($this->filename);
             }
