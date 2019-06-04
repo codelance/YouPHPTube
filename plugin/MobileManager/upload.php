@@ -103,7 +103,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
     
     //$video->setStatus('e');
-    $video->setStatus('i');
+    $video->setStatus('a');
     //if (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
     //    $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")";
     //    error_log("MOBILE UPLOAD ERROR: ".  json_encode($object));
