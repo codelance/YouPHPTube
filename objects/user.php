@@ -485,7 +485,7 @@ if (typeof gtag !== \"function\") {
                 $this->status, $this->photoURL, $this->recoverPass, $this->channelName, $this->channelId, $this->analyticsCode, $this->externalOptions);
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, channelId, analyticsCode, externalOptions) "
                     . " VALUES (?,?,?,?,?,?,?, false, "
-                    . "?,?,?, now(), now(),?,?,?)";
+                    . "?,?,?, now(), now(),?,?,?,?)";
         }
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
         if ($insert_row) {
